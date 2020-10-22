@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { 
   Box,
-  Container,
+  Paper,
   Typography,
   Tab,
   Tabs,
@@ -11,7 +11,6 @@ import {
 import AdminGallery from './gallery/AdminGallery';
 import AdminNews from './news/AdminNews';
 import AdminRams from './rams/AdminRams';
-import { connect } from 'react-redux';
 import UserNav from './user/UserNav';
 import { useSelector } from "react-redux";
 import { Redirect } from 'react-router-dom';
@@ -28,7 +27,7 @@ function TabPanel(props) {
       {...other}
     >
       {value === index && (
-        <Box p={3}>
+        <Box p={2}>
           <Typography component="div">{children}</Typography>
         </Box>
       )}
@@ -52,19 +51,30 @@ function a11yProps(index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+
+  },
+  tabsMain: {
+    flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
+    padding: '1vh 0',
 
   },
   tabs: {
     borderRight: `1px solid ${theme.palette.divider}`,
-    minWidth: '30%',
     color: '#3f51b5',
-    'font-weight': '800'
+    minWidth: 140
   },
   tabPanel: {
-    minWidth:'70%',
+    minWidth:'40vw',
     minHeight: '80vh',
+  },
+  tabsFont: { 
+    fontWeight: '800',
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.65rem",
+      fontWeight: '600'
+    }
   }
 }));
 
@@ -78,22 +88,21 @@ const Admin = () => {
   };
   if(!auth) return <Redirect to='Login' />
   return (
-    <Container spacing={3}>
+    <Paper component="div" className={classes.root}>
     <Box align="center">
       <UserNav />
     </Box>
-    <div className={classes.root}>
+    <div className={classes.tabsMain}>
       <Tabs
         orientation="vertical"
         variant="scrollable"
         value={value}
         onChange={handleChange}
-        aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Galerija" {...a11yProps(0)} />
-        <Tab label="Vesti" {...a11yProps(1)} />
-        <Tab label="Ovnovi" {...a11yProps(2)} />
+        <Tab label={<span className={classes.tabsFont}>Galerija</span>} {...a11yProps(0)}/>
+        <Tab label={<span className={classes.tabsFont}>Vesti</span>} {...a11yProps(1)} />
+        <Tab label={<span className={classes.tabsFont}>Ovnovi</span>} {...a11yProps(2)} />
       </Tabs>
       <TabPanel value={value} index={0} className={classes.tabPanel}>
         <AdminGallery />
@@ -105,16 +114,10 @@ const Admin = () => {
         <AdminRams />
       </TabPanel>
     </div>
-    </Container>
+    </Paper>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-
-  }
-}
 
 
-
-export default connect(mapStateToProps)(Admin);
+export default Admin;

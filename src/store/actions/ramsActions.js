@@ -3,42 +3,68 @@ import { projectStorage, projectFirestore, timestamp } from '../../firebase/conf
 export const createRam = (files, content) => {
     return (dispatch) => {
 
-        
-        const collectionRef = projectFirestore.collection('rams');
-        const urls = [];       
-        const createdAt = timestamp();
+        let promises = [];
+        let urls = [];       
+        let createdAt = timestamp();
+        let randId = 'ram' + (''+ Math.random()).substring(2, 12);
+        let collectionRef = projectFirestore.collection('rams').doc(randId);
+        dispatch({type: 'WORKING', working:true})
 
         
-        files.forEach((file,index) => {
-
-        const storageRef = projectStorage.ref(`rams/${content.name}/${file.name}`);
-
-        storageRef.put(file).on('state_changed', (snap) => {
-            let precentage = (snap.bytesTransferred / snap.totalBytes) * 100;
-            dispatch({type: 'PROGRESS_BAR', precentage})
-        }, (err) => {
-            dispatch({type: 'CREATE_RAM_ERROR', err})
-        }, async () => {
-            let url = await storageRef.getDownloadURL();
-            urls.push(url);
-            if(urls.length === files.length){
-                collectionRef.add({ ...content, urls, createdAt })
-                .then(() => {
-                    let precentage = 0;
-                    let newValue = false;
-                    dispatch({type: 'CREATE_RAM', files, content})
-                    dispatch({type: 'PROGRESS_BAR', precentage})
-                    dispatch({type: 'SWITCH_SHOW_ADD_FORM', newValue})
+        files.forEach((file) => {
+            let storageRef = projectStorage.ref(`rams/${randId}/${file.name}`);
+            promises.push(
+                storageRef.put(file).then((snap) => {
+                    return snap.ref.getDownloadURL();
                 })
-                .catch((err) => {
-                    dispatch({type: 'CREATE_RAM_ERROR', err})
-                })
+            )
 
-            }
-        })
+            Promise.all(promises).then((res) => {
+                urls = [...Object.values(res)];
+                collectionRef.set({...content, urls, createdAt}).then(() => {
+                    dispatch({type: 'CREATE_RAM', content});
+                    dispatch({type: 'WORKING', working:false});
+                }).catch((err) => {
+                    dispatch({type: 'CREATE_RAM_ERROR', err});
+                })
+            }).catch((err) => {
+                dispatch({type: 'CREATE_RAM_ERROR', err});
+            })
 
         })
     };
+}
+
+export const editRam = (files, ram) => {
+    return (dispatch) => {
+        let promises = [];
+        let newUrls = [];
+        let editedRam = ram;
+        let ramRef = projectFirestore.collection('rams').doc(ram.id);
+
+        files.forEach((file) => {
+            let storageRef = projectStorage.ref(`rams/${ram.id}/${file.name}`);
+            promises.push(
+                storageRef.put(file).then((snap) => {
+                    return snap.ref.getDownloadURL();
+                })
+            )
+        })
+
+
+        Promise.all(promises).then((res) => {
+            newUrls = [...ram.urls, ...Object.values(res)];
+            editedRam.urls = newUrls;
+            ramRef.update(editedRam).then(() => {
+                dispatch({type: 'EDIT_RAM', id:editedRam.id});
+                dispatch({type: 'SWITCH_RAM_FORM', current:''});
+            }).catch((err) => {
+                dispatch({type: 'EDIT_RAM_ERROR', err});
+            })
+        }).catch((err) => {
+            dispatch({type: 'EDIT_RAM_ERROR', err});
+        });
+    }
 }
 
 export const deleteRam = (ram) => {  
@@ -47,7 +73,7 @@ export const deleteRam = (ram) => {
         const storageRef = projectStorage.ref('rams');
 
         let deleteAllImages = [];
-        ram.urls.forEach(url => deleteAllImages.push(projectStorage.refFromURL(url).delete()));
+        ram.urls.forEach(url => deleteAllImages.push(() => projectStorage.refFromURL(url).delete()));
 
         dispatch({type: 'WORKING', working:true});
 
@@ -67,20 +93,9 @@ export const deleteRam = (ram) => {
     }  
 }
 
-export const switchShowAddForm = (current) => {
-    const newValue = !current;
-    return (dispatch, getState) => {
-        dispatch({type: 'SWITCH_SHOW_ADD_FORM', newValue});
-
+export const switchRamForm = (current) => {
+    return (dispatch) => {
+        dispatch({type: 'SWITCH_RAM_FORM', current});
     }
-
-
 }
-export const switchShowDeleteForm = (current) => {
-    const newValue = !current;
-    return (dispatch, getState) => {
-        dispatch({type: 'SWITCH_SHOW_DELETE_FORM', newValue});
 
-    }
-
-}

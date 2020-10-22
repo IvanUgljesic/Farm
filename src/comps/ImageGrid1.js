@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         display: 'flex',
         flexWrap: 'wrap',
-        justifyContent: 'space-around',
+        justifyContent: 'center',
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
     },
@@ -50,7 +50,7 @@ const ImageGrid1 = ({ setSelectedImg }) => {
     return (
         <div className={classes.root}>
          { 
-            docs && docs.length === 0 ? 
+            docs.length === 0 ? 
             <Grid container justify="center" alignContent="center">
                 <CircularProgress />
             </Grid>:

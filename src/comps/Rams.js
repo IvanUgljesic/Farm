@@ -60,6 +60,11 @@ const Rams = (props) => {
       [index]:url
     })
   }
+
+  const dateFormat = (date) => {
+    let dateParts = date.split('-');
+    return ( dateParts[2]+'/'+dateParts[1]+'/'+dateParts[0])
+  }
   
 
   return (
@@ -70,8 +75,8 @@ const Rams = (props) => {
         rams.slice().map((ram, index) => (
           <Card className={classes.ram} key={ram.name}>
             <Grid container spacing={2} direction="row">
-              <Grid item xs={12} md={5} >
-                <Grid container direction="column" alignContent="center" alignItems="stretch">
+              <Grid item xs={12} md={5}>
+                <Grid container direction="column">
                   <Grid item xs={12} md={12} align="center">
                     <CardContent>
                       <Typography gutterBottom variant="h5" component="h2">
@@ -82,11 +87,11 @@ const Rams = (props) => {
                       </Typography>
                       <Divider />
                       <Typography variant="caption" color="primary">
-                        Datum rođenja: {ram.birthDate}
+                        Datum rođenja: {dateFormat(ram.birthDate)}
                       </Typography>
                       <Divider />
                       <Typography variant="caption" color="primary">
-                        Tip jagnjenja: {ram.birthType}
+                        Tip jagnjenja: { ram.birthType }
                       </Typography>
                       <Divider />
                       <Typography variant="body2" color="textSecondary" component="p">
@@ -102,30 +107,30 @@ const Rams = (props) => {
                       </Typography>
                     </CardContent>
                   </Grid>
-                  <Grid item xs={12} md={12}>
-                    <CardActions className={classes.images}>
-                      {
-                        ram.urls.map((url,i) => (
-                        <Button 
-                        color="primary" 
-                        onClick={() => handleClick(url, index)} 
-                        key={url} 
-                        variant={currentImgs[index] === url ? 'outlined':(!currentImgs[index] && i === 0 ) ? 'outlined':'text' }
-                        >
-                        <Avatar alt="Ovan" src={url}  className={classes.large} />
-                        </Button>
-                        ))
-                      }
-                    </CardActions>
-                  </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12} md={7}>
+                  <Grid item xs={12}>
                   <CardMedia
                     image={currentImgs[index] ? currentImgs[index]:ram.urls[0]}
                     className={classes.media}
                     title={ram.name}
-                  />
+                  /></Grid>
+                  <Grid container spacing={1}>
+                      {
+                        ram.urls.map((url,i) => (
+                          <Grid item xs={4} sm={3}  key={url} align="space-around">
+                        <Button 
+                        color="primary" 
+                        onClick={() => handleClick(url, index)}                          
+                        variant={currentImgs[index] === url ? 'outlined':(!currentImgs[index] && i === 0 ) ? 'outlined':'text' }
+                        >
+                        <Avatar alt="Ovan" src={url}  className={classes.large} />
+                        </Button>
+                        </Grid>
+                        ))
+                      }
+                  </Grid>
               </Grid>
 
             </Grid>

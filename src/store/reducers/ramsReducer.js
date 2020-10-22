@@ -2,8 +2,7 @@ const initState = {
     rams: [
     ],
     progress: [],
-    showAddForm: false,
-    showDeleteForm: false,
+    currentRamForm: '',
     working: false
 }
 
@@ -15,25 +14,28 @@ const ramsReducer = (state = initState, action) => {
                 ...state,
                 working: action.working
             }
+        case 'EDIT_RAM':
+            console.log('ram edited', action.id)
+            return{
+                ...state
+            }
+        case 'EDIT_RAM_ERROR':
+            console.log('ram edit error', action.err)
+            return{
+                ...state
+            }
         case 'PROGRESS_BAR':
             return {
                 ...state,
                 progress: action.precentage
             }
-        case 'SWITCH_SHOW_ADD_FORM':
+        case 'SWITCH_RAM_FORM':
             return {
                 ...state,
-                showAddForm: action.newValue,
-                showDeleteForm: false
-            }
-        case 'SWITCH_SHOW_DELETE_FORM':
-            return {
-                ...state,
-                showDeleteForm: action.newValue,
-                showAddForm: false
+                currentRamForm: action.current,
             }
         case 'CREATE_RAM':
-            console.log('creating ram', action.file, action.content);
+            console.log('creating ram', action.res);
             return state;
         case 'CREATE_RAM_ERROR':
             console.log('error ram', action.err);

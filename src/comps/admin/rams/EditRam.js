@@ -3,38 +3,38 @@ import { Card, Typography, makeStyles, TextField, MenuItem, Grid, Button, Circul
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { deleteImage } from '../../../store/actions/galleryActions';
 import { useDispatch, useSelector } from "react-redux";
+import EditForm from './EditForm';
 
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
-      padding: theme.spacing(1),
+      padding: theme.spacing(3),
       border: '3px solid #3f51b5'
     },
   }));
 
-const DeleteForm = (props) => {
+
+const EditRam = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const working = useSelector(state => state.gallery.working);
-    const gallery = props.gallery;
-    const [pic, setPic] = React.useState({});
+    const working = useSelector(state => state.rams.working);
+    const rams = props.rams;
+    const [ram, setRam] = React.useState({});
 
-    const handleChange = (e) => {
+    const selectRam = (e) => {
       let id = e.target.value;
-      let temp = gallery.filter(a => a.id === id);
-      setPic(...temp);
+      let temp = rams.filter(a => a.id === id)
+        setRam(...temp);
     }
     const handleSubmit = () => {
-      dispatch(deleteImage(pic));
-      setPic({});
+
     }
     return (
         <Card className={classes.root}>
           <Grid container spacing={3} alignItems="center">
           <Grid item xs={12}>
-          <Typography variant='h5' align="left" >Izaberi sliku za brisanje</Typography>
+          <Typography variant='h5' align="left" >Izaberi ovna za izmenu</Typography>
 
           </Grid>
           <Grid item xs={12} md={6}>
@@ -43,32 +43,28 @@ const DeleteForm = (props) => {
               margin="dense"
               select
               id="outlined-textarea"
-              label="Slika"
+              label="Ovan"
               variant="outlined"
-              onChange={handleChange}
-              value={pic.id || ''}
+              onChange={selectRam}
+              value={ram.id || ''}
             >
              {
-                gallery ? gallery.map(pic => {
+                rams ? rams.map(ram => {
                 return (
-                  <MenuItem key={pic.id} value={pic.id}>
-                    {pic.title}
+                  <MenuItem key={ram.id} value={ram.id}>
+                    {ram.name}
                   </MenuItem>
                 )
-              }):<MenuItem>{pic.title}</MenuItem>
+              }):<MenuItem>{ram.name}</MenuItem>
              } 
             </TextField>
             </Grid>
-            <Grid item xs={12} md={6}>
-                <Button
-                fullWidth
-                variant="contained"
-                size="large"
-                color="primary"
-                onClick={handleSubmit}
-                >
-                Izbriši
-                </Button>
+            <Grid item xs={12}>
+            {
+                ram.id ? 
+                <EditForm ram={ram} />:''
+            }
+                
             </Grid>
             </Grid>
             {
@@ -84,13 +80,13 @@ const DeleteForm = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-        gallery: state.firestore.ordered.gallery
+        rams: state.firestore.ordered.rams
     }
 }
 
 export default compose(
-connect(mapStateToProps),
-firestoreConnect([
-    { collection: 'gallery' }
-])
-)(DeleteForm);
+    connect(mapStateToProps),
+    firestoreConnect([
+        { collection: 'rams' }
+    ])
+    )(EditRam);

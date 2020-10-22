@@ -20,7 +20,6 @@ import { useDispatch, useSelector } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    minWidth: '90%',
     padding: '2vh',
     border: '3px solid #3f51b5'
   },

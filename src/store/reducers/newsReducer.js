@@ -2,8 +2,7 @@ const initState = {
     news: [
     ],
     progress: 0,
-    showAddForm: false,
-    showDeleteForm: false
+    currentNewsForm: '',
 }
 
 const newsReducer = (state = initState, action) => {
@@ -14,17 +13,10 @@ const newsReducer = (state = initState, action) => {
                 ...state,
                 progress: action.precentage
             }
-        case 'SWITCH_SHOW_ADD_FORM':
+        case 'SWITCH_NEWS_FORM':
             return {
                 ...state,
-                showAddForm: action.newValue,
-                showDeleteForm: false
-            }
-        case 'SWITCH_SHOW_DELETE_FORM':
-            return {
-                ...state,
-                showDeleteForm: action.newValue,
-                showAddForm: false
+                currentNewsForm: action.current,
             }
         case 'CREATE_A_PIECE_OF_NEWS':
             console.log('creating news', action.file, action.content);

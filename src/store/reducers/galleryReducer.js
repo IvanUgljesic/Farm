@@ -2,8 +2,7 @@ const initState = {
     images: [
     ],
     progress: 0,
-    showAddFormGallery: false,
-    showDeleteFormGallery: false
+    currentGalleryForm: '',
 }
 
 const galleryReducer = (state = initState, action) => {
@@ -14,17 +13,10 @@ const galleryReducer = (state = initState, action) => {
                 ...state,
                 progress: action.precentage
             }
-        case 'SWITCH_SHOW_ADD_FORM_GALLERY':
+        case 'SWITCH_GALLERY_FORM':
             return {
                 ...state,
-                showAddFormGallery: action.newValue,
-                showDeleteFormGallery: false
-            }
-        case 'SWITCH_SHOW_DELETE_FORM_GALLERY':
-            return {
-                ...state,
-                showDeleteFormGallery: action.newValue,
-                showAddFormGallery: false
+                currentGalleryForm: action.current,
             }
         case 'UPLOAD_IMAGE':
             console.log('Uploading image', action.file, action.content);

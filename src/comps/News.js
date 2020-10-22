@@ -102,6 +102,8 @@ const News = ({ news }) => {
   const handleDateFilter = (e) => {
     setDateFilter(e.target.value);
   }
+  
+
   return (
     newsSorted ?
       <div className={classes.root}>
@@ -116,7 +118,7 @@ const News = ({ news }) => {
               Filteri
           </Button>
           </Grid>
-          <Grid item xs={8} > 
+          <Grid item xs={12} sm={8}> 
             {  showFilter ?  
             <Grid container direction="row">
               <Grid item xs={6}>
@@ -176,7 +178,7 @@ const News = ({ news }) => {
                   id="panel1c-header"
                 >
                   <div className={classes.column}>
-                    <Typography className={classes.heading} align="justify">{aPieceOfNews.title}</Typography>
+                    <Typography className={classes.heading} align="left">{aPieceOfNews.title}</Typography>
                   </div>
                   <div className={classes.column}>
                     <Chip label={aPieceOfNews.category} variant="outlined" />
@@ -200,10 +202,10 @@ const News = ({ news }) => {
                   </div>
                 </AccordionSummary>
                 <AccordionDetails className={classes.details}>
-                  <div className={classes.column} >
+                  <div className={classes.column2} >
                     <img alt='' src={aPieceOfNews.url} className={classes.large} />
                   </div>
-                  <div className={clsx(classes.column2, classes.helper)}>
+                  <div className={clsx(classes.column, classes.helper)}>
                     <Typography variant="caption">
                       {aPieceOfNews.content}
                     </Typography>

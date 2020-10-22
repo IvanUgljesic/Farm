@@ -16,10 +16,9 @@ export const createAPieceOfNews = (file, content) => {
             collectionRef.add({ ...content, url, createdAt })
             .then(() => {
                 let precentage = 0;
-                let newValue = false;
                 dispatch({type: 'CREATE_A_PIECE_OF_NEWS', file, content})
                 dispatch({type: 'PROGRESS_BAR', precentage})
-                dispatch({type: 'SWITCH_SHOW_ADD_FORM', newValue})
+                dispatch({type: 'SWITCH_NEWS_FORM', current:''})
             })
             .catch((err) => {
                 dispatch({type: 'CREATE_A_PIECE_OF_NEWS_ERROR', err})
@@ -48,20 +47,11 @@ export const deleteAPieceOfNews = (aPieceOfNews) => {
     }  
 }
 
-export const switchShowAddForm = (current) => {
-    const newValue = !current;
-    return (dispatch, getState) => {
-        dispatch({type: 'SWITCH_SHOW_ADD_FORM', newValue});
+export const switchNewsForm = (current) => {
+    return (dispatch) => {
+        dispatch({type: 'SWITCH_NEWS_FORM', current});
 
     }
 
-
-}
-export const switchShowDeleteForm = (current) => {
-    const newValue = !current;
-    return (dispatch, getState) => {
-        dispatch({type: 'SWITCH_SHOW_DELETE_FORM', newValue});
-
-    }
 
 }

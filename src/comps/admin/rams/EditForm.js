@@ -1,132 +1,151 @@
 import React from 'react';
 import {
   Button,
-  Card,
+  Avatar,
   Grid,
   Typography,
   TextField,
   makeStyles,
   MenuItem
 } from '@material-ui/core';
-import { createRam } from '../../../store/actions/ramsActions';
-import ProgressBar from '../gallery/ProgressBar';
-import { useDispatch, useSelector } from "react-redux";
+import { Delete } from '@material-ui/icons/';
 import ImageUploader from './ImageUploader';
+import { editRam } from '../../../store/actions/ramsActions';
+import { useDispatch } from "react-redux";
+
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    padding: '2vh',
-    border: '3px solid #3f51b5'
-  },
-  img: {
-    minWidth: '100%',
-    minHeight: '20vh',
-    background: 'white',
+    root: {
+      flexGrow: 1,
+      padding: '2vh',
+      border: '3px solid #3f51b5'
+    },
+    img: {
+      minWidth: '100%',
+      minHeight: '20vh',
+      background: 'white',
+  
+    },
+    txt2: {
+      'margin-top': '1vh'
+    },
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    btn: {
+      background: '#4e4e4e',
+      color: 'white'
+    },
+    weight: {
+      maxWidth: '5vw'
+    },
+    chip: {
+      maxWidth: '100%',
+      'text-overflow': 'ellipsis'
+    },
+    large: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+    },
+    picControl: {
+      display: 'flex',
+      flexDirection: 'row',
+    }
+  }));
 
-  },
-  txt2: {
-    'margin-top': '1vh'
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  btn: {
-    background: '#4e4e4e',
-    color: 'white'
-  },
-  weight: {
-    maxWidth: '5vw'
-  }
-}));
+const EditForm = ({ram}) => {
+    const dispatch = useDispatch();
+    const classes = useStyles();
+    const [ramForEditing, setRamForEditing] = React.useState({...ram});
+    const birthTypes = ['jedinice', 'dvojke', 'trojke', 'četvorke', 'petice'];
+    const [files, setFiles] = React.useState([]);
+    
 
-const AddForm = (props) => {
-  const dispatch = useDispatch();
-  const progress = useSelector(state => state.rams.progress);
-  const classes = useStyles();
-  const [files, setFiles] = React.useState([]);
-  const [imgFormatError, setImgFormatError] = React.useState(null);
-  const [inputError, setInputError] = React.useState(null);
-  const [state, setState] = React.useState({
-    name: '',
-    mother: '',
-    father: '',
-    birthDate: '',
-    birthType: '',
-    bloodLine: '',
-    '1day': '',
-    '30days': '',
-    '45days': '',
 
-  });
-
-  const types = ['image/png', 'image/jpeg'];
-  const birthTypes = ['jedinice', 'dvojke', 'trojke', 'četvorke', 'petice'];
-
-  const handleChange = (event) => {
-    setInputError(null)
-    const name = event.target.name;
-    setState({
-      ...state,
-      [name]: event.target.value,
-    });
-  };
-
-  const handleDelete = (chipToDelete) => (e) => {
-    setFiles([...files.filter(file => file.name !== chipToDelete)]);
-  };
-
-  const onFileChange = e => {
-    for (let i = 0; i < e.target.files.length; i++) {
-        const newFile = e.target.files[i];
-        newFile["id"] = Math.random();
-    // add an "id" property to each File object
-        setFiles(prevState => [...prevState, newFile]);
-      }
-      console.log(files)
+    const handleDelete = (chipToDelete) => (e) => {
+      setFiles([...files.filter(file => file.name !== chipToDelete)]);
+    };
+  
+    const onFileChange = e => {
+      for (let i = 0; i < e.target.files.length; i++) {
+          const newFile = e.target.files[i];
+          newFile["id"] = Math.random();
+      // add an "id" property to each File object
+          setFiles(prevState => [...prevState, newFile]);
+        }
+        console.log(files)
     };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(state)
-    dispatch(createRam(files, state));
-  }
-  return (
-    <Card className={classes.root}>
-      <Typography variant='h5' align="center" >Novi ovan</Typography>
-      <form noValidate autoComplete="off">
+
+    const handleChange = (event) => {
+        const name = event.target.name;
+        setRamForEditing({
+            ...ramForEditing,
+            [name]: event.target.value,
+        });
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        dispatch(editRam(files, ramForEditing));
+    }
+
+    const deleteImage = (url) => {
+        setRamForEditing({
+            ...ramForEditing,
+            urls: ramForEditing.urls.filter(item => item !== url),
+        });
+    };
+
+
+    return(
+        <form noValidate autoComplete="off">
         <Grid container alignItems="flex-start" spacing={3}>
+          <Grid item sm={12}>
           <ImageUploader files={files} handleDelete={handleDelete} onFileChange={onFileChange}/>
-          <Grid item sm={12} md={6}>
+          </Grid>
+            {
+                ramForEditing.urls.map(url => {
+                    return (
+                      <Grid item xs={12} sm={6} md={3} key={url} className={classes.picControl}>  
+                        <Avatar alt="" src={url} className={classes.large}/>                     
+                        <Button
+                        onClick={() => deleteImage(url)}                        
+                        >
+                        <Delete />
+                        </Button>
+                      </Grid>
+                    )                        
+                })
+            }
+          <Grid item sm={12}>
             <TextField
               className={classes.txt2}
               fullWidth
-              id="outlined-textarea"
               label="Tet. br."
               variant="outlined"
               onChange={handleChange}
               name='name'
+              value={ramForEditing.name}
             />
             <TextField
               className={classes.txt2}
               fullWidth
-              id="outlined-textarea"
               label="Krvna linija"
               variant="outlined"
               onChange={handleChange}
               name='bloodLine'
+              value={ramForEditing.bloodLine}
             />
             <TextField
               className={classes.txt2}
               fullWidth
               select
-              id="outlined-textarea"
               label="Tip jagnjenja"
               variant="outlined"
               onChange={handleChange}
-              value={state.birthType}
               name='birthType'
+              value={ramForEditing.birthType}
             >
              {
               birthTypes.map(type => {
@@ -141,20 +160,20 @@ const AddForm = (props) => {
             <TextField
               className={classes.txt2}
               fullWidth
-              id="outlined-multiline-static"
               label="Majka"
               variant="outlined"
               onChange={handleChange}
               name='mother'
+              value={ramForEditing.mother}
             />
             <TextField
               className={classes.txt2}
               fullWidth
-              id="outlined-multiline-static"
               label="Otac"
               variant="outlined"
               onChange={handleChange}
               name='father'
+              value={ramForEditing.father}
             />
             <TextField
               className={classes.txt2}
@@ -165,7 +184,7 @@ const AddForm = (props) => {
               type="date"
               name="birthDate"
               onChange={handleChange}
-              defaultValue=""
+              defaultValue={ramForEditing.birthDate}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -174,30 +193,30 @@ const AddForm = (props) => {
           <Grid item xs={12}><Typography variant="caption">Težina</Typography></Grid>
           <Grid item xs={4}>
             <TextField
-              id="outlined-multiline-static"
               label="1-dan"
               margin="dense"
               variant="outlined"
               onChange={handleChange}
               name='1day'
+              value={ramForEditing['1day']}
             /></Grid>
           <Grid item xs={4}>
             <TextField
-              id="outlined-multiline-static"
               label="30-dana"
               margin="dense"
               variant="outlined"
               onChange={handleChange}
               name='30days'
+              value={ramForEditing['30days']}
             /></Grid>
           <Grid item xs={4}>
             <TextField
-              id="outlined-multiline-static"
               label="45-dana"
               margin="dense"
               variant="outlined"
               onChange={handleChange}
               name='45days'
+              value={ramForEditing['45days']}
             /></Grid>
           </Grid>
           </Grid>
@@ -209,16 +228,12 @@ const AddForm = (props) => {
               color="primary"
               onClick={handleSubmit}
             >
-              Upiši
+              Izemni
             </Button>
           </Grid>
         </Grid>
       </form>
-      { progress > 0 ? <ProgressBar progress={progress} /> : ''}
-      { inputError ? <Typography color="error" align="center">{inputError}</Typography> : ''}
-    </Card>
-  )
+    )
 }
 
-
-export default AddForm;
+export default EditForm;
