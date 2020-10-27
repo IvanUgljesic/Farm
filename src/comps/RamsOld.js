@@ -7,33 +7,28 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import ramBackground from '../images/ramBackground.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    padding: theme.spacing(2)
   },
   ram: {
     display: 'flex',
     flexDirection: 'row',
     minWidth: '100%',
-    marginTop: theme.spacing(2),
-    backgroundImage: `url(${ramBackground})`,
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat'
+    padddingTop: theme.spacing(1)
   },
   media: {
     height: '100%',
     width: 'auto',
     minHeight: "40vh",
     backgroundSize: 'contain',
-    margin: theme.spacing(1)
+    padding: theme.spacing(1)
   },
   large: {
     width: theme.spacing(7),
@@ -43,50 +38,26 @@ const useStyles = makeStyles((theme) => ({
     width: '40%',
   },
   left: {
+    height: '100%',
   },
   images: {
     'justify-content':"center"
   },
 }));
 
-const  TabPanel = (props) => {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`scrollable-auto-tabpanel-${index}`}
-        aria-labelledby={`scrollable-auto-tab-${index}`}
-        {...other}
-      >
-        {value === index && (
-          <Box p={0}>
-          {children}
-          </Box>
-        )}
-      </div>
-    );
-}
-
-const Rams1 = (props) => {
+const Rams = (props) => {
   const classes = useStyles();
   const { rams } = props;
   
   //const defaultImages = rams && rams.map((ram,i) => [i]=ram.urls[0]);
 
   const [currentImgs, setCurrentImgs] = React.useState({});
-  const [currentImgsIndex, setCurrentImgsIndex] = React.useState({});
 
-  const handleClick = (url,index, i) => {
+  const handleClick = (url,index) => {
     setCurrentImgs({
       ...currentImgs,
       [index]:url
     })
-    setCurrentImgsIndex({
-        ...currentImgsIndex,
-        [index]:i
-      })
   }
 
   const dateFormat = (date) => {
@@ -101,8 +72,8 @@ const Rams1 = (props) => {
         rams ?
         rams.slice().map((ram, index) => (
           <Card className={classes.ram} key={ram.name}>
-            <Grid container spacing={1} direction="row">
-              <Grid item xs={12} md={5} className={classes.left}>
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={12} md={5}>
                 <Grid container direction="column">
                   <Grid item xs={12} md={12} align="center">
                     <CardContent>
@@ -137,32 +108,27 @@ const Rams1 = (props) => {
                 </Grid>
               </Grid>
               <Grid item xs={12} md={7}>
-                    <TabPanel>
-                    <CardMedia
-                        image={currentImgs[index] ? currentImgs[index]:ram.urls[0]}
-                        className={classes.media}
-                        title={ram.name}
-                    />
-                    </TabPanel>
-                    <Tabs
-                    value={currentImgsIndex[index] || 0}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="scrollable"
-                    scrollButtons="auto"
-                    >
-                        {
-                        ram.urls.map((url, i) => {
-                            return (
-                            <Tab 
-                            label={<Avatar alt="Ovan" src={url} />} 
-                            key={url} 
-                            onClick={() => handleClick(url, index, i)}
-                            />
-                            )
-                        })
-                        }
-                    </Tabs>
+                  <Grid item xs={12}>
+                  <CardMedia
+                    image={currentImgs[index] ? currentImgs[index]:ram.urls[0]}
+                    className={classes.media}
+                    title={ram.name}
+                  /></Grid>
+                  <Grid container spacing={1}>
+                      {
+                        ram.urls.map((url,i) => (
+                          <Grid item xs={4} sm={3}  key={url} align="space-around">
+                        <Button 
+                        color="primary" 
+                        onClick={() => handleClick(url, index)}                          
+                        variant={currentImgs[index] === url ? 'outlined':(!currentImgs[index] && i === 0 ) ? 'outlined':'text' }
+                        >
+                        <Avatar alt="Ovan" src={url}  className={classes.large} />
+                        </Button>
+                        </Grid>
+                        ))
+                      }
+                  </Grid>
               </Grid>
 
             </Grid>
@@ -187,4 +153,4 @@ export default compose(
   firestoreConnect([
     { collection: 'rams' }
   ])
-)(Rams1);
+)(Rams);

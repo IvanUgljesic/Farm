@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { GiSheep } from 'react-icons/gi';
 import { makeStyles, AppBar, Tab, Tabs, Typography, Box } from '@material-ui/core';
 import Home from './Home';
 import Gallery from './Gallery';
@@ -66,10 +65,10 @@ const Nav = () => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.bar}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered variant="fullWidth" >
-          <Tab icon={value===0 ? <GiSheep size="1.5em" />:''} label="Početna" {...a11yProps(0)} className={classes.links}/>
-          <Tab icon={value===1 ? <GiSheep size="1.5em" />:''} label="Galerija" {...a11yProps(1)} className={classes.links}/>
-          <Tab icon={value===2 ? <GiSheep size="1.5em" />:''} label="Ovnovi" {...a11yProps(2)} className={classes.links}/>
-          <Tab icon={value===3 ? <GiSheep size="1.5em"/>:''} label="Vesti" {...a11yProps(3)} className={classes.links}/>
+          <Tab label="Početna" {...a11yProps(0)} className={classes.links}/>
+          <Tab label="Galerija" {...a11yProps(1)} className={classes.links}/>
+          <Tab label="Ovnovi" {...a11yProps(2)} className={classes.links}/>
+          <Tab label="Vesti" {...a11yProps(3)} className={classes.links}/>
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} style={{minHeight: "100vh", maxheight: "100vh"}}>

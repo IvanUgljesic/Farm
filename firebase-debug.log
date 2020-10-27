@@ -1,0 +1,60 @@
+[debug] [2020-10-27T15:34:16.494Z] ----------------------------------------------------------------------
+[debug] [2020-10-27T15:34:16.496Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-10-27T15:34:16.496Z] CLI Version:   8.13.1
+[debug] [2020-10-27T15:34:16.496Z] Platform:      win32
+[debug] [2020-10-27T15:34:16.497Z] Node Version:  v14.4.0
+[debug] [2020-10-27T15:34:16.498Z] Time:          Tue Oct 27 2020 16:34:16 GMT+0100 (Central European Standard Time)
+[debug] [2020-10-27T15:34:16.498Z] ----------------------------------------------------------------------
+[debug] [2020-10-27T15:34:16.498Z] 
+[debug] [2020-10-27T15:34:16.505Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-10-27T15:34:16.506Z] > authorizing via signed-in user
+[debug] [2020-10-27T15:34:16.506Z] [iam] checking project sheep-farm-35234 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-10-27T15:34:16.509Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/sheep-farm-35234:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-10-27T15:34:17.398Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:34:15 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=755","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:34:17.400Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/sheep-farm-35234/serviceAccounts/sheep-farm-35234@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-10-27T15:34:18.303Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:34:16 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:34:18.305Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/sheep-farm-35234  
+ 
+[debug] [2020-10-27T15:34:18.577Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:34:16 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:34:18.788Z] TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at validateString (internal/validators.js:121:11)
+    at Object.join (path.js:375:7)
+    at Object.checkFunctionsSDKVersion [as fn] (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\checkFirebaseSDKVersion.js:34:28)
+    at Command.<anonymous> (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\command.js:169:30)
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\command.js:5:58)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2020-10-27T15:41:05.987Z] ----------------------------------------------------------------------
+[debug] [2020-10-27T15:41:05.989Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2020-10-27T15:41:05.990Z] CLI Version:   8.14.0
+[debug] [2020-10-27T15:41:05.990Z] Platform:      win32
+[debug] [2020-10-27T15:41:05.990Z] Node Version:  v14.4.0
+[debug] [2020-10-27T15:41:05.991Z] Time:          Tue Oct 27 2020 16:41:05 GMT+0100 (Central European Standard Time)
+[debug] [2020-10-27T15:41:05.991Z] ----------------------------------------------------------------------
+[debug] [2020-10-27T15:41:05.992Z] 
+[debug] [2020-10-27T15:41:05.999Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-10-27T15:41:05.999Z] > authorizing via signed-in user
+[debug] [2020-10-27T15:41:05.999Z] [iam] checking project sheep-farm-35234 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2020-10-27T15:41:06.002Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/sheep-farm-35234:testIamPermissions  
+ {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2020-10-27T15:41:06.944Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:41:05 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=788","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:41:06.945Z] >>> HTTP REQUEST POST https://iam.googleapis.com/v1/projects/sheep-farm-35234/serviceAccounts/sheep-farm-35234@appspot.gserviceaccount.com:testIamPermissions  
+ {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2020-10-27T15:41:07.974Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:41:06 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:41:07.975Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/sheep-farm-35234  
+ 
+[debug] [2020-10-27T15:41:08.307Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Tue, 27 Oct 2020 15:41:06 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-Q050=\":443\"; ma=2592000,h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-T050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2020-10-27T15:41:08.528Z] TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string. Received undefined
+    at validateString (internal/validators.js:121:11)
+    at Object.join (path.js:375:7)
+    at Object.checkFunctionsSDKVersion [as fn] (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\checkFirebaseSDKVersion.js:34:28)
+    at Command.<anonymous> (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\command.js:169:30)
+    at Generator.next (<anonymous>)
+    at fulfilled (C:\Users\ugiv\AppData\Roaming\npm\node_modules\firebase-tools\lib\command.js:5:58)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+[error] 
+[error] Error: An unexpected error has occurred.

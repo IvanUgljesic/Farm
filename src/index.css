@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&display=swap');
 
+@font-face {
+  font-family: 'Aladin';
+  src: local('Aladin'), url(./fonts/Aladin-Regular.ttf) format('truetype');
+}
+
 :root{
+  font-family: "Aladin";
   --primary: #4e4e4e;
   --secondary: #000000;
   --error: #ff4a4a;
@@ -8,7 +14,6 @@
 
 /* base styles & title */
 body{
-  font-family: "Noto Serif";
   color: var(--secondary);
   background-image: url("./images/background.jpg");
   background-repeat: no-repeat;

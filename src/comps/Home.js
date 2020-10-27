@@ -10,6 +10,7 @@ import Carousel from 'react-material-ui-carousel';
 import slider1 from '../images/slider1.jpg';
 import slider2 from '../images/slider2.jpg';
 import slider3 from '../images/slider3.jpg';
+import ramBackground from '../images/ramBackground.png';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,10 +21,16 @@ const useStyles = makeStyles((theme) => ({
     media: {
         maxHeight: "46vh",
     },
+    newsArea: {
+        color: "white"
+    },
     news: {
         minHeight: '100%',
         cursor: 'pointer',
-        border: '1px solid #4e4e4e'
+        backgroundImage: `url(${ramBackground})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        paddingTop: theme.spacing(1)
         
     },
     img : {
@@ -70,7 +77,7 @@ const Home = ({newsClick}) => {
             </Grid>
             <Grid item xs={12} md={4}>
                 <Paper className={classes.news} onClick={clickHandle}>
-                <Typography variant="h5" component="h2" align="center">
+                <Typography variant="h5" component="h2" align="center" className={classes.newsArea}>
                     Vesti
                 </Typography>
                 <NewsList />
