@@ -1,90 +1,98 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { 
+  makeStyles,
+  Accordion,
+  Select, 
+  InputLabel,
+  AccordionDetails,
+  AccordionSummary,
+  Typography,
+  Chip,
+  Grid,
+  Divider,
+  Button,
+  FormControl,
+  CircularProgress
+} from '@material-ui/core/';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { ExpandMore, ArrowForwardIos, ArrowBackIos, ExpandLess } from '@material-ui/icons/';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import moment from 'moment';
 import Pagination from '@material-ui/lab/Pagination';
-import { GiSheep } from 'react-icons/gi';
-import { ExpandMore, ArrowForwardIos, ArrowBackIos, ExpandLess, Category } from '@material-ui/icons/';
-import { 
-  Select, 
-  InputLabel,
-  Chip,
-  Grid,
-  Button,
-  FormControl,
-  CircularProgress
-} from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        minHeight: '75vh',
+  root: {
+    width: '100%',
+    minHeight: '75vh'
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+  },
+  secondaryHeading: {
+    fontSize: theme.typography.pxToRem(15),
+    color: theme.palette.text.secondary,
+  },
+  icon: {
+    verticalAlign: 'bottom',
+    height: 20,
+    width: 20,
+  },
+  details: {
+    alignItems: 'center',
+  },
+  column: {
+    flexBasis: '33.33%',
+  },
+  column2: {
+    flexBasis: '66.66%',
+  },
+  helper: {
+    borderLeft: `2px solid ${theme.palette.divider}`,
+    padding: theme.spacing(1, 2),
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: 'none',
+    '&:hover': {
+      textDecoration: 'underline',
     },
-    cards: {
-      width: '100%',
-    },
-    media: {
-      height: 0,
-      paddingTop: '100%',
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: "#4e4e4e",
-    },
-    filter: {
-      minHeight: '6vh',
-      marginBottom: '1vh',
-    },
-    select: {
-      maxHeight: '4vh'
-    },
-    large: {
-      width: 'auto',  
-      maxWidth: '100%',
-      maxHeight: '40vh',
-    },
-    btn: {
-      textTransform: 'none',
-      maxHeight: '4vh'
-    },
-    active: {
-      color: '#009933',
-      borderColor: '#009933'
-    },
-  }));
+  },
+  large: {
+    width: 'auto',
+    height: '40vh',
+  },
+  active: {
+    color: '#009933',
+    borderColor: '#009933'
+  },
+  page: {
+    marginTop: theme.spacing(2),
+  },
+  filter: {
+    minHeight: '6vh',
+    marginBottom: '1vh'
+  },
+  select: {
+    maxHeight: '4vh'
+  },
+  newsList: {
+    minHeight: '70vh'
+  },
+  btn: {
+    textTransform: 'none'
+  }
+}));
 
 const News = ({ news }) => {
-  console.log(news)
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
   const [catFilter, setCatFilter] = React.useState('Sve');
   const [dateFilter, setDateFilter] = React.useState('-');
   const [showFilter, setShowFilter] = React.useState(false);
   const newsSorted = news && news.slice().sort((a, b) => dateFilter === '-' ? b.createdAt - a.createdAt : a.createdAt - b.createdAt);
-  const [expend, setExpend] = React.useState(news ? {...new Array(news.length).fill(false)}:{...new Array(10).fill(false)});
+  const [expend, setExpend] = React.useState({...new Array(news.length).fill(true)});
 
 
   const handlePage = (e, value) => {
@@ -194,77 +202,55 @@ const News = ({ news }) => {
           </Grid>
 
         </Grid>
-        <Grid container spacing={2}>
         {
           newsSorted && newsSorted.filter(a => catFilter === 'Sve' ? a : a.category === catFilter).slice(page * 10 - 10, page * 10).map((aPieceOfNews, index) => {
             return (
-            <Grid item xs={12} md={4} key={aPieceOfNews.id}>
-              <Card className={classes.cards} >
-                <CardHeader
-                    avatar={
-                    <Avatar aria-label="recipe" className={classes.avatar}>
-                        <GiSheep size="1em" />
-                    </Avatar>
+              <Accordion expanded={expend[index]} key={aPieceOfNews.id}>
+                <AccordionSummary
+                  expandIcon={<ExpandMore />}
+                  aria-controls="panel1c-content"
+                  id="panel1c-header"
+                  onClick={() => handleExpend(index)}
+                >
+                  <div className={classes.column}>
+                    <Typography className={classes.heading} align="left">{aPieceOfNews.title}</Typography>
+                  </div>
+                  <div className={classes.column}>
+                    <Chip label={aPieceOfNews.category} variant="outlined" />
+                    {
+                      aPieceOfNews.category !== 'Prodaja' ? '' : aPieceOfNews.checkedP ?
+                        <Chip
+                          label="Prodato"
+                          variant="outlined"
+                          color="secondary"
+                        />
+                        :
+                        <Chip
+                          label="Aktuelno"
+                          variant="outlined"
+                          className={classes.active}
+                        />
                     }
-                    action={
-                    <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                    </IconButton>
-                    }
-                    title={aPieceOfNews.title}
-                    subheader={aPieceOfNews.createdAt && moment(aPieceOfNews.createdAt.toDate()).format('DD/MM/YYYY')}
-                />
-                <CardMedia
-                    className={classes.media}
-                    title="news image"
-                    image={aPieceOfNews.url}
-                />
-                <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
-                  <Category />
-                        <Typography variant="caption" className={classes.cardFooter}>
-                        <Chip label={aPieceOfNews.category} variant="outlined" />
-                        <br/>
-                        {
-                        aPieceOfNews.category !== 'Prodaja' ? '' : aPieceOfNews.checkedP ?
-                            <Chip
-                            label="Prodato"
-                            variant="default"
-                            color="secondary"
-                            />
-                            :
-                            <Chip
-                            label="Aktuelno"
-                            variant="default"
-                            className={classes.active}
-                            />
-                        }
-                        </Typography>
-                </IconButton>
-                    <IconButton
-                    className={clsx(classes.expand, {
-                        [classes.expandOpen]: expend[index],
-                    })}
-                    onClick={() => handleExpend(index)}
-                    aria-expanded={expend[index]}
-                    aria-label="show more"
-                    >
-                    <ExpandMoreIcon />
-                    </IconButton>
-                </CardActions>
-                <Collapse in={expend[index]} timeout="auto" unmountOnExit>
-                    <CardContent>
-                        <Typography variant="caption">
-                        {aPieceOfNews.content}
-                        </Typography>
-                    </CardContent>
-                </Collapse>
-            </Card>
-            </Grid>
+                  </div>
+                  <div className={classes.column}>
+                    <Chip label={aPieceOfNews.createdAt && moment(aPieceOfNews.createdAt.toDate()).format('DD/MM/YYYY')} variant="outlined" />
+                  </div>
+                </AccordionSummary>
+                <AccordionDetails className={classes.details}>
+                  <Grid item sm={12} md={4} className={clsx(classes.column, classes.helper)}>
+                    <Typography variant="caption">
+                      {aPieceOfNews.content}
+                    </Typography>
+                  </Grid>
+                  <Grid item sm={12} md={8} className={classes.column2} >
+                    <img alt='' src={aPieceOfNews.url} className={classes.large} />
+                  </Grid>
+                </AccordionDetails>
+                <Divider />
+              </Accordion>
             )
           })
         }
-        </Grid>
         <Grid container justify="center" className={classes.page}>
           <Pagination count={Math.round(newsSorted.filter(a => catFilter === 'Sve' ? a : a.category === catFilter).length / 10)} page={page} onChange={handlePage} />
         </Grid>

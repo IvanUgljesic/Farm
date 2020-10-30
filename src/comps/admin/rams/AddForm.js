@@ -57,7 +57,7 @@ const AddForm = (props) => {
     bloodLine: '',
     '1day': '',
     '30days': '',
-    '45days': '',
+    '100days': '',
 
   });
 
@@ -193,11 +193,11 @@ const AddForm = (props) => {
           <Grid item xs={4}>
             <TextField
               id="outlined-multiline-static"
-              label="45-dana"
+              label="100-dana"
               margin="dense"
               variant="outlined"
               onChange={handleChange}
-              name='45days'
+              name='100days'
             /></Grid>
           </Grid>
           </Grid>

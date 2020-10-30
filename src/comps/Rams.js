@@ -128,9 +128,9 @@ const Rams1 = (props) => {
                       <Typography variant="caption">
                         Masa(Kg):
                         <br />
-                        1-dan/30-dana/45-dana
+                        1-dan/30-dana/100-dana
                         <br />
-                        {ram['1day']} / {ram['30days']} / {ram['45days']}
+                        {ram['1day']} / {ram['30days']} / {ram['100days']}
                       </Typography>
                     </CardContent>
                   </Grid>

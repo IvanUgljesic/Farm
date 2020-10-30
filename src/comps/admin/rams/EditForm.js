@@ -211,12 +211,12 @@ const EditForm = ({ram}) => {
             /></Grid>
           <Grid item xs={4}>
             <TextField
-              label="45-dana"
+              label="100-dana"
               margin="dense"
               variant="outlined"
               onChange={handleChange}
-              name='45days'
-              value={ramForEditing['45days']}
+              name='100days'
+              value={ramForEditing['100days']}
             /></Grid>
           </Grid>
           </Grid>
