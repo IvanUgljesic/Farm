@@ -26,7 +26,8 @@ import {
   Grid,
   Button,
   FormControl,
-  CircularProgress
+  CircularProgress,
+  Tooltip
 } from '@material-ui/core/';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +75,9 @@ const useStyles = makeStyles((theme) => ({
       color: '#009933',
       borderColor: '#009933'
     },
+    page: {
+      marginTop: theme.spacing(2),
+    }
   }));
 
 const News = ({ news }) => {
@@ -208,7 +212,9 @@ const News = ({ news }) => {
                     }
                     action={
                     <IconButton aria-label="settings">
+                        <Tooltip  disableFocusListener disableTouchListener placement="left-end" title={aPieceOfNews.content}>
                         <MoreVertIcon />
+                        </Tooltip>
                     </IconButton>
                     }
                     title={aPieceOfNews.title}

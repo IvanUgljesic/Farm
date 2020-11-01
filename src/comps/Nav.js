@@ -65,7 +65,7 @@ const Nav = () => {
     <div className={classes.root}>
       <AppBar position="static" className={classes.bar}>
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example" centered variant="fullWidth" >
-          <Tab label="Početna" {...a11yProps(0)} className={classes.links}/>
+          <Tab label="O farmi" {...a11yProps(0)} className={classes.links}/>
           <Tab label="Galerija" {...a11yProps(1)} className={classes.links}/>
           <Tab label="Ovnovi" {...a11yProps(2)} className={classes.links}/>
           <Tab label="Vesti" {...a11yProps(3)} className={classes.links}/>

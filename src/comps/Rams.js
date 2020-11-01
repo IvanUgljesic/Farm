@@ -10,10 +10,12 @@ import Divider from '@material-ui/core/Divider';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import Tooltip from '@material-ui/core/Tooltip';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import ramBackground from '../images/ramBackground.png';
+import Info from '@material-ui/icons/Info';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,11 +31,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: 'no-repeat'
   },
   media: {
-    height: '100%',
-    width: 'auto',
-    minHeight: "40vh",
-    backgroundSize: 'contain',
-    margin: theme.spacing(1)
+    height: 0,
+    paddingTop: '100%',
+    backgroundSize: 'contain'
   },
   large: {
     width: theme.spacing(7),
@@ -46,7 +46,23 @@ const useStyles = makeStyles((theme) => ({
   },
   images: {
     'justify-content':"center"
+  }, 
+  info: {
+    height: '0',
+    display: 'flex',
+    alignItems: 'flex-start',
+    backgroundColor: "#4e4e4e",
+    color: 'white',
+    fontWeight: '300',
   },
+  tip: {
+    fontFamily: [
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif'
+    ].join(','),
+  }
 }));
 
 const  TabPanel = (props) => {
@@ -101,8 +117,8 @@ const Rams1 = (props) => {
         rams ?
         rams.slice().map((ram, index) => (
           <Card className={classes.ram} key={ram.name}>
-            <Grid container spacing={1} direction="row">
-              <Grid item xs={12} md={5} className={classes.left}>
+            <Grid container spacing={1} direction="row" alignItems="center" >
+              <Grid item xs={12} md={7} className={classes.left}>
                 <Grid container direction="column">
                   <Grid item xs={12} md={12} align="center">
                     <CardContent>
@@ -110,20 +126,105 @@ const Rams1 = (props) => {
                         {ram.name}
                       </Typography>
                       <Typography variant="caption" color="error">
-                        Linija: {ram.bloodLine}
+                        Krvna linija: {ram.bloodLine}
                       </Typography>
                       <Divider />
-                      <Typography variant="caption" color="primary">
+                      <Typography variant="caption">
                         Datum rođenja: {dateFormat(ram.birthDate)}
                       </Typography>
                       <Divider />
-                      <Typography variant="caption" color="primary">
+                      <Typography variant="caption">
                         Tip jagnjenja: { ram.birthType }
                       </Typography>
                       <Divider />
-                      <Typography variant="body2" color="textSecondary" component="p">
-                        Otac: {ram.father} <br /> Majka: {ram.mother}
-                      </Typography>
+                      <Grid container spacing={3}>
+                        <Grid item xs={12}>
+                          <Box className={classes.info}>
+                          <Tooltip className={classes.tip} title="* Pedigre grla (oo - očev otac...)" placement="right"><Info /></Tooltip>
+                          </Box>                          
+                          <Grid container alignItems="center">{/* father*/}
+                            <Grid item xs={12} md={4}>
+                          <Typography variant="caption" component="p">
+                            Otac:<br/> {ram.father}
+                          </Typography>
+                          </Grid>
+                            <Grid item xs={12} md={8}>
+                            <Grid container alignItems="center" spacing={2}>
+                              <Grid item xs={12}>
+                              <Grid container spacing={1} alignItems="center">
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p" noWrap>
+                                    OO: {ram.oo}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p" noWrap>
+                                    OOO: {ram.ooo} <br /> OOM: {ram.oom}
+                                  </Typography>
+                                </Grid>
+                                </Grid>
+                              </Grid>
+                              <Grid item xs={12}>
+                              <Grid container spacing={1} alignItems="center">
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p">
+                                    OM: {ram.om}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p">
+                                    OMO: {ram.omo} <br /> OMM: {ram.omm}
+                                  </Typography>
+                                </Grid>
+                                </Grid>
+                              </Grid>
+
+                            </Grid>
+                          </Grid>
+                          </Grid>
+                          <Divider />
+                          <Grid container alignItems="center">{/* mother*/}
+                            <Grid item xs={12} md={4}>
+                          <Typography variant="caption" component="p">
+                            Majka:<br/> {ram.mother}
+                          </Typography>
+                          </Grid>
+                            <Grid item xs={12} md={8}>
+                            <Grid container alignItems="center" spacing={2}>
+                              <Grid item xs={12}>
+                              <Grid container spacing={1} alignItems="center">
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p" noWrap>
+                                    MO: {ram.mo}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p" noWrap>
+                                    MOO: {ram.moo} <br /> MOM: {ram.mom}
+                                  </Typography>
+                                </Grid>
+                                </Grid>
+                              </Grid>
+                              <Grid item xs={12}>
+                              <Grid container spacing={1} alignItems="center">
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p">
+                                    MM: {ram.mm}
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={6}>
+                                  <Typography variant="caption" component="p">
+                                    MMO: {ram.mmo} <br /> MMM: {ram.mmm}
+                                  </Typography>
+                                </Grid>
+                                </Grid>
+                              </Grid>
+
+                            </Grid>
+                          </Grid>
+                          </Grid>
+                        </Grid>
+                      </Grid>
                       <Divider />
                       <Typography variant="caption">
                         Masa(Kg):
@@ -136,7 +237,7 @@ const Rams1 = (props) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} md={7}>
+              <Grid item xs={12} md={5}>
                     <TabPanel>
                     <CardMedia
                         image={currentImgs[index] ? currentImgs[index]:ram.urls[0]}
@@ -146,7 +247,7 @@ const Rams1 = (props) => {
                     </TabPanel>
                     <Tabs
                     value={currentImgsIndex[index] || 0}
-                    indicatorColor="primary"
+                    indicatorColor="secondary"
                     textColor="primary"
                     variant="scrollable"
                     scrollButtons="auto"
