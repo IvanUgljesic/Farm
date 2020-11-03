@@ -9,6 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { switchRamForm } from '../../../store/actions/ramsActions';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        minWidth: '100%'
+    },
     button: {
       padding: theme.spacing(1),
     },
@@ -32,9 +36,8 @@ const AdminRams = () => {
          }
     }
 
-    return (
-        
-        <Grid container spacing={2} direction="row">
+    return (    
+        <Grid container spacing={2} direction="row" className={classes.root}>
             <Grid item xs={12} md={4}>
                 <Button
                     variant="contained"

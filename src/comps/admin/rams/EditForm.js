@@ -58,9 +58,13 @@ const EditForm = ({ram}) => {
     const dispatch = useDispatch();
     const classes = useStyles();
     const [ramForEditing, setRamForEditing] = React.useState({...ram});
-    const birthTypes = ['jedinice', 'dvojke', 'trojke', 'četvorke', 'petice'];
     const [files, setFiles] = React.useState([]);
-    
+    const [imgFormatError, setImgFormatError] = React.useState(null);
+
+    const types = ['image/png', 'image/jpeg'];    
+    const birthTypes = ['jedinice', 'dvojke', 'trojke', 'četvorke', 'petice'];
+    const fatherPedigree = ['oo', 'ooo', 'oom', 'om', 'omo', 'omm'];
+    const motherPedigree = ['mo', 'moo', 'mom', 'mm', 'mmo', 'mmm'];
 
 
     const handleDelete = (chipToDelete) => (e) => {
@@ -70,11 +74,17 @@ const EditForm = ({ram}) => {
     const onFileChange = e => {
       for (let i = 0; i < e.target.files.length; i++) {
           const newFile = e.target.files[i];
-          newFile["id"] = Math.random();
-      // add an "id" property to each File object
-          setFiles(prevState => [...prevState, newFile]);
+          newFile["id"] = Math.random();// add an "id" property to each File object
+          if(!types.includes(newFile.type)){
+            setImgFormatError('format slike mora biti jpeg ili png!');
+          }
+          else if(newFile.size/1024 > 512){
+            setImgFormatError("max dozvoljena velicina slike je 512Kb, sliku možete resajzovati");
+          }
+          else {
+            setFiles(prevState => [...prevState, newFile]);
+          }
         }
-        console.log(files)
     };
 
 
@@ -101,24 +111,84 @@ const EditForm = ({ram}) => {
     return(
         <form noValidate autoComplete="off">
         <Grid container alignItems="flex-start" spacing={3}>
-          <Grid item sm={12}>
-          <ImageUploader files={files} handleDelete={handleDelete} onFileChange={onFileChange}/>
-          </Grid>
-            {
-                ramForEditing.urls.map(url => {
-                    return (
-                      <Grid item xs={12} sm={6} md={3} key={url} className={classes.picControl}>  
-                        <Avatar alt="" src={url} className={classes.large}/>                     
-                        <Button
-                        onClick={() => deleteImage(url)}                        
-                        >
-                        <Delete />
-                        </Button>
-                      </Grid>
-                    )                        
+          <Grid item sm={12} md={6}>
+              <Grid item sm={12}>   
+            <Grid container spacing={1}>{/* father pedigree*/}
+            <Grid item xs={12}><Typography variant="caption">Pedigre oca</Typography></Grid>
+              <TextField
+                fullWidth
+                label="Otac"
+                variant="outlined"
+                onChange={handleChange}
+                name='father'
+                defaultValue={ram.father}
+              /> 
+              {
+                fatherPedigree.map((mark, i) => {
+                  return (
+                    <Grid item xs={4} key={mark}>
+                      <TextField
+                        className={classes.txt2}
+                        fullWidth
+                        label={mark}
+                        variant="outlined"
+                        onChange={handleChange}
+                        name={mark}
+                        defaultValue={ram[mark]}
+                      /> 
+                    </Grid>
+                  )
                 })
-            }
-          <Grid item sm={12}>
+              }
+            </Grid>                 
+            <Grid container spacing={1}>{/* mothers pedigree*/}
+            <Grid item xs={12}><Typography variant="caption">Pedigre majka</Typography></Grid>
+              <TextField
+                fullWidth
+                label="Majka"
+                variant="outlined"
+                onChange={handleChange}
+                name='mother'
+                defaultValue={ram.mother}
+              /> 
+              {
+                motherPedigree.map((mark, i) => {
+                  return (
+                    <Grid item xs={4} key={mark}>
+                      <TextField
+                        className={classes.txt2}
+                        fullWidth
+                        label={mark}
+                        variant="outlined"
+                        onChange={handleChange}
+                        name={mark}
+                        defaultValue={ram[mark]}
+                      /> 
+                    </Grid>
+                  )
+                })
+              }
+            </Grid>
+          </Grid>
+          </Grid>
+          <Grid item sm={12} md={6}>
+          <ImageUploader files={files} handleDelete={handleDelete} onFileChange={onFileChange} imgFormatError={imgFormatError} />
+              <Grid container spacing={1}>
+                {
+                  ramForEditing.urls.map(url => {
+                      return (
+                        <Grid item xs={6} md={4} key={url} className={classes.picControl}>  
+                          <Avatar alt="" src={url} className={classes.large}/>                     
+                          <Button
+                          onClick={() => deleteImage(url)}                        
+                          >
+                          <Delete />
+                          </Button>
+                        </Grid>
+                      )                        
+                  })
+                }
+              </Grid>
             <TextField
               className={classes.txt2}
               fullWidth
@@ -157,24 +227,6 @@ const EditForm = ({ram}) => {
               })
              } 
             </TextField>
-            <TextField
-              className={classes.txt2}
-              fullWidth
-              label="Majka"
-              variant="outlined"
-              onChange={handleChange}
-              name='mother'
-              value={ramForEditing.mother}
-            />
-            <TextField
-              className={classes.txt2}
-              fullWidth
-              label="Otac"
-              variant="outlined"
-              onChange={handleChange}
-              name='father'
-              value={ramForEditing.father}
-            />
             <TextField
               className={classes.txt2}
               id="date"

@@ -10,6 +10,7 @@ import Divider from '@material-ui/core/Divider';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -56,12 +57,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: '300',
   },
   tip: {
-    fontFamily: [
-      'Roboto',
-      '"Helvetica Neue"',
-      'Arial',
-      'sans-serif'
-    ].join(','),
+    color: 'white',
+
   }
 }));
 
@@ -140,7 +137,9 @@ const Rams1 = (props) => {
                       <Grid container spacing={3}>
                         <Grid item xs={12}>
                           <Box className={classes.info}>
-                          <Tooltip className={classes.tip} title="* Pedigre grla (oo - očev otac...)" placement="right"><Info /></Tooltip>
+                          <Tooltip disableFocusListener arrow leaveTouchDelay={2000} title="* Pedigre grla (oo - očev otac...)" placement="right">
+                            <IconButton aria-label="info"><Info className={classes.tip}/></IconButton>
+                          </Tooltip>
                           </Box>                          
                           <Grid container alignItems="center">{/* father*/}
                             <Grid item xs={12} md={4}>

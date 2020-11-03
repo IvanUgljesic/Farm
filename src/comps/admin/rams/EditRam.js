@@ -1,9 +1,9 @@
 import React from 'react';
-import { Card, Typography, makeStyles, TextField, MenuItem, Grid, Button, CircularProgress } from '@material-ui/core';
+import { Card, Typography, makeStyles, TextField, MenuItem, Grid, CircularProgress } from '@material-ui/core';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import EditForm from './EditForm';
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 const EditRam = (props) => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const working = useSelector(state => state.rams.working);
     const rams = props.rams;
     const [ram, setRam] = React.useState({});
@@ -27,9 +26,7 @@ const EditRam = (props) => {
       let temp = rams.filter(a => a.id === id)
         setRam(...temp);
     }
-    const handleSubmit = () => {
-
-    }
+    
     return (
         <Card className={classes.root}>
           <Grid container spacing={3} alignItems="center">

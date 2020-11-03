@@ -68,11 +68,11 @@ const Header = () => {
         name: '',
         email: '',
         message: '',
-        sum: '0',
+        sum: 0,
         a: Math.floor(Math.random() * 10 + 1),
         b: Math.floor(Math.random() * 10 + 1)
     });
-
+    
     const handleOpen = () => {
         setOpen(true);
     };
@@ -85,7 +85,7 @@ const Header = () => {
         const name = e.target.name;
         setState({
         ...state,
-        [name]: e.target.value
+        [name]: name === 'sum' ? Number(e.target.value):e.target.value
         });
     };
 
@@ -94,7 +94,7 @@ const Header = () => {
        if(state.name === '')setError('Niste uneli Vaše ime');
        else if(!state.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/))setError('Vaša email adresa nije u ispravnom formatu (naprimer@primer.npr)')
        else if(state.message === '')setError('Upišite poruku');
-       else if(state.sum != (state.a + state.b))setError('Zbir cifara nije tačan');
+       else if(state.sum !== (state.a + state.b))setError('Zbir cifara nije tačan');
        else if(error === ''){
         emailjs.sendForm('gmail', 'template_a92khxp', e.target, process.env.REACT_APP_EMAILJS_API_KEY)
             .then(() => {
@@ -103,7 +103,7 @@ const Header = () => {
                 name: '',
                 email: '',
                 message: '',
-                sum: '0',
+                sum: 0,
                 a: Math.floor(Math.random() * 10 + 1),
                 b: Math.floor(Math.random() * 10 + 1)                
             })               

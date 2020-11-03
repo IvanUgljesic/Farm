@@ -81,7 +81,6 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const News = ({ news }) => {
-  console.log(news)
   const classes = useStyles();
   const [page, setPage] = React.useState(1);
   const [catFilter, setCatFilter] = React.useState('Sve');
@@ -122,8 +121,9 @@ const News = ({ news }) => {
     newsSorted ?
       <div className={classes.root}>
         <Grid container spacing={2} className={classes.filter}>
-          <Grid item xs={4} >
+          <Grid item xs={12} md={4} >
             <Button 
+              className={classes.btn}
               color="primary"
               variant="outlined"
               endIcon={!showFilter ? <ArrowForwardIos />:<ArrowBackIos />}
@@ -132,7 +132,7 @@ const News = ({ news }) => {
               Filteri
           </Button>
           </Grid>
-          <Grid item xs={12} sm={8}> 
+          <Grid item xs={12} md={8}> 
             {  showFilter ?  
             <Grid container direction="row" wrap="nowrap">
               <Grid item xs={4}>
@@ -177,7 +177,7 @@ const News = ({ news }) => {
                 </Select>
               </FormControl>
               </Grid>
-              <Grid item sm={4}>
+              <Grid item xs={4}>
               <Grid container justify="flex-end">
               <FormControl variant="outlined">
                 <Button
@@ -212,7 +212,7 @@ const News = ({ news }) => {
                     }
                     action={
                     <IconButton aria-label="settings">
-                        <Tooltip  disableFocusListener disableTouchListener placement="left-end" title={aPieceOfNews.content}>
+                        <Tooltip  disableFocusListener arrow leaveTouchDelay={2000} placement="bottom-end" title={aPieceOfNews.content}>
                         <MoreVertIcon />
                         </Tooltip>
                     </IconButton>

@@ -24,6 +24,7 @@ export const createRam = (files, content) => {
                 collectionRef.set({...content, urls, createdAt}).then(() => {
                     dispatch({type: 'CREATE_RAM', content});
                     dispatch({type: 'WORKING', working:false});
+                    dispatch({type: 'SWITCH_RAM_FORM', current:''});
                 }).catch((err) => {
                     dispatch({type: 'CREATE_RAM_ERROR', err});
                 })
@@ -70,7 +71,6 @@ export const editRam = (files, ram) => {
 export const deleteRam = (ram) => {  
     return (dispatch) => {
         const collectionRef = projectFirestore.collection('rams');
-        const storageRef = projectStorage.ref('rams');
 
         let deleteAllImages = [];
         ram.urls.forEach(url => deleteAllImages.push(() => projectStorage.refFromURL(url).delete()));

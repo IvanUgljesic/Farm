@@ -17,7 +17,8 @@ const ramsReducer = (state = initState, action) => {
         case 'EDIT_RAM':
             console.log('ram edited', action.id)
             return{
-                ...state
+                ...state,
+                currentRamForm: action.current
             }
         case 'EDIT_RAM_ERROR':
             console.log('ram edit error', action.err)

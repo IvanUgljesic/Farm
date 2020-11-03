@@ -4,7 +4,7 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Grid, Paper, useMediaQuery } from '@material-ui/core';
+import { Grid, Paper } from '@material-ui/core';
 import NewsList from './NewsList';
 import Carousel from 'react-material-ui-carousel';
 import slider1 from '../images/slider1.jpg';
@@ -18,8 +18,13 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         paddingTop: theme.spacing(1),
     },
+    carousel: {
+        width: '100%',
+        height: 'auto'        
+    },
     media: {
-        maxHeight: "46vh",
+        height: '56.25%',
+        width: '100%'
     },
     newsArea: {
         color: "white"
@@ -34,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
         
     },
     img : {
-        height: '40vh',
         width: '100%',
         minHeight: "40vh",
     }
@@ -44,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = ({newsClick}) => {
     const imgs = [slider1, slider2, slider3];
-    const matches = useMediaQuery('(min-width:600px)');
     const clickHandle = (e) => {
         newsClick(null, 3);
     }
@@ -52,7 +55,7 @@ const Home = ({newsClick}) => {
     function Item(props)
     {
         return (
-                <img src={props.img} className={classes.img} alt='slider' />
+                <img src={props.img} className={classes.media} alt='slider' />
         )
     }
     
@@ -61,7 +64,7 @@ const Home = ({newsClick}) => {
         <div className={classes.root}>
         <Grid container spacing={2}>
             <Grid item xs={12} md={8}>
-                    <Carousel className={classes.media}>
+                    <Carousel className={classes.carousel}>
                     {
                         imgs.map( (item, i) => <Item key={i} img={item}/> )
                     }

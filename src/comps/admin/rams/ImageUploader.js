@@ -4,6 +4,8 @@ import {
     Grid,
     makeStyles,
     Chip,
+    Typography,
+    Link
 } from '@material-ui/core';
 import ImageSearchIcon from '@material-ui/icons/ImageSearch';
 
@@ -19,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ImageUploader = ({ files, handleDelete, onFileChange }) => {
+const ImageUploader = ({ files, handleDelete, onFileChange, imgFormatError }) => {
     const classes = useStyles();
     return (
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12}>
                 <Button
                     variant="contained"
                     fullWidth
@@ -33,7 +35,7 @@ const ImageUploader = ({ files, handleDelete, onFileChange }) => {
                     <input
                         type="file"
                         style={{ display: "none" }}
-                        multiple
+                        multiple="multiple"
                         onChange={onFileChange}
                     />
                 Dodaj slike
@@ -58,6 +60,12 @@ const ImageUploader = ({ files, handleDelete, onFileChange }) => {
                         </Grid> : ''
                 }
             trenutno slika ({files.length})
+            <br/>
+            { imgFormatError ? 
+                <Typography variant="caption" color="secondary">
+                    {imgFormatError} {imgFormatError.includes('512') ? <Link href="https://resizeimage.net/" target="_blank" rel="noreferrer" underline="always">ovde</Link>:''}
+                </Typography>:'' 
+            }
           </Grid>
     )
 }

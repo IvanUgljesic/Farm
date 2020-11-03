@@ -6,7 +6,7 @@ import {
   Typography,
   TextField,
   makeStyles,
-  MenuItem
+  MenuItem,
 } from '@material-ui/core';
 import { createRam } from '../../../store/actions/ramsActions';
 import ProgressBar from '../gallery/ProgressBar';
@@ -60,8 +60,11 @@ const AddForm = (props) => {
     '100days': '',
 
   });
+  console.log(state)
 
   const types = ['image/png', 'image/jpeg'];
+  const fatherPedigree = ['oo', 'ooo', 'oom', 'om', 'omo', 'omm'];
+  const motherPedigree = ['mo', 'moo', 'mom', 'mm', 'mmo', 'mmm'];
   const birthTypes = ['jedinice', 'dvojke', 'trojke', 'četvorke', 'petice'];
 
   const handleChange = (event) => {
@@ -71,6 +74,7 @@ const AddForm = (props) => {
       ...state,
       [name]: event.target.value,
     });
+    console.log(state)
   };
 
   const handleDelete = (chipToDelete) => (e) => {
@@ -78,13 +82,20 @@ const AddForm = (props) => {
   };
 
   const onFileChange = e => {
+    setImgFormatError(null);
     for (let i = 0; i < e.target.files.length; i++) {
         const newFile = e.target.files[i];
-        newFile["id"] = Math.random();
-    // add an "id" property to each File object
-        setFiles(prevState => [...prevState, newFile]);
+        newFile["id"] = Math.random(); // add an "id" property to each File object
+        if(!types.includes(newFile.type)){
+          setImgFormatError('format slike mora biti jpeg ili png!');
+        }
+        else if(newFile.size/1024 > 512){
+          setImgFormatError("max dozvoljena velicina slike je 512Kb, sliku možete resajzovati");
+        }
+        else {
+          setFiles(prevState => [...prevState, newFile]);
+        }
       }
-      console.log(files)
     };
 
   const handleSubmit = (e) => {
@@ -97,8 +108,62 @@ const AddForm = (props) => {
       <Typography variant='h5' align="center" >Novi ovan</Typography>
       <form noValidate autoComplete="off">
         <Grid container alignItems="flex-start" spacing={3}>
-          <ImageUploader files={files} handleDelete={handleDelete} onFileChange={onFileChange}/>
+          <Grid item sm={12} md={6}>   
+            <Grid container spacing={1}>{/* father pedigree*/}
+            <Grid item xs={12}><Typography variant="caption">Pedigre oca</Typography></Grid>
+              <TextField
+                fullWidth
+                label="Otac"
+                variant="outlined"
+                onChange={handleChange}
+                name='father'
+              /> 
+              {
+                fatherPedigree.map((mark, i) => {
+                  return (
+                    <Grid item xs={4} key={mark}>
+                      <TextField
+                        className={classes.txt2}
+                        fullWidth
+                        label={mark}
+                        variant="outlined"
+                        onChange={handleChange}
+                        name={mark}
+                      /> 
+                    </Grid>
+                  )
+                })
+              }
+            </Grid>                 
+            <Grid container spacing={1}>{/* mothers pedigree*/}
+            <Grid item xs={12}><Typography variant="caption">Pedigre majka</Typography></Grid>
+              <TextField
+                fullWidth
+                label="Majka"
+                variant="outlined"
+                onChange={handleChange}
+                name='mother'
+              /> 
+              {
+                motherPedigree.map((mark, i) => {
+                  return (
+                    <Grid item xs={4} key={mark}>
+                      <TextField
+                        className={classes.txt2}
+                        fullWidth
+                        label={mark}
+                        variant="outlined"
+                        onChange={handleChange}
+                        name={mark}
+                      /> 
+                    </Grid>
+                  )
+                })
+              }
+            </Grid>
+          </Grid>
           <Grid item sm={12} md={6}>
+            <ImageUploader files={files} handleDelete={handleDelete} onFileChange={onFileChange} imgFormatError={imgFormatError}/>  
             <TextField
               className={classes.txt2}
               fullWidth
@@ -137,25 +202,7 @@ const AddForm = (props) => {
                 )
               })
              } 
-            </TextField>
-            <TextField
-              className={classes.txt2}
-              fullWidth
-              id="outlined-multiline-static"
-              label="Majka"
-              variant="outlined"
-              onChange={handleChange}
-              name='mother'
-            />
-            <TextField
-              className={classes.txt2}
-              fullWidth
-              id="outlined-multiline-static"
-              label="Otac"
-              variant="outlined"
-              onChange={handleChange}
-              name='father'
-            />
+            </TextField> 
             <TextField
               className={classes.txt2}
               id="date"

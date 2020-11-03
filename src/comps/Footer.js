@@ -13,6 +13,10 @@ const useStyles = makeStyles((theme) =>({
     color: "white",
     alignItems: 'center'
   },
+  phone: {
+    fontSize: '12px'
+
+  },
   mapouter:{
     margin: '120px auto',
     position:'relative',
@@ -59,7 +63,7 @@ const Footer = () => {
         <Tooltip title="Pozovite nas">
         <BottomNavigationAction
           className={classes.footer}
-          label={<Typography variant="caption">+381 60 448 4581</Typography>}
+          label={<Typography className={classes.phone} variant="caption">+381 60 448 4581</Typography>}
           icon={<Phone />}
         />      
         </Tooltip>  
@@ -93,15 +97,14 @@ const Footer = () => {
           <div className={classes.mapouter}>
             <div className={classes.canvas}>
               <iframe 
+              title="Google-maps"
               width="100%" 
               height="100%"
               src="https://maps.google.com/maps?q=svetomira%20alimpica%2098%2C%20glusci&t=&z=13&ie=UTF8&iwloc=&output=embed" 
-              frameBorder="0" 
-              scrolling="no" 
+              frameBorder="0"  
               marginHeight="0" 
               marginWidth="0">                
               </iframe>
-              <a href="https://www.whatismyip-address.com/nordvpn-coupon/"></a>
               </div>
             </div>
         </Fade>
