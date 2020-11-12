@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
         
     },
     img : {
+        height: '40vh',
         width: '100%',
         minHeight: "40vh",
     }
