@@ -83,6 +83,7 @@ const Footer = () => {
         />
         </Tooltip>
       </BottomNavigation>
+      <Container maxWidth="lg">
       <Modal
         className={classes.modal}
         open={open}
@@ -109,6 +110,7 @@ const Footer = () => {
             </div>
         </Fade>
       </Modal>
+      </Container>
     </Container>
   )
 }

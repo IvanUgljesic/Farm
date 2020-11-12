@@ -5,6 +5,7 @@ import Admin from './comps/admin/Admin';
 import Footer from './comps/Footer';
 import Header from './comps/Header';
 import Login from './comps/admin/Login';
+import { Container } from '@material-ui/core';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 
@@ -12,7 +13,7 @@ import { ThemeProvider } from '@material-ui/styles';
 const theme = createMuiTheme({
   typography: {
     fontFamily: [
-      'Aladin',
+      'Itim',
       'Roboto',
       '"Helvetica Neue"',
       'Arial',
@@ -31,7 +32,7 @@ const App = () => {
   return (
     <BrowserRouter>
     <ThemeProvider theme={theme}>
-      <div className="App">
+      <Container maxWidth="lg" className="App">
         <Header />
         <Switch>
           <Route path='/Admin' component={Admin} />
@@ -39,7 +40,7 @@ const App = () => {
           <Route path='/' component={Nav} />
         </Switch>
         <Footer />
-      </div>
+      </Container>
     </ThemeProvider>
     </BrowserRouter>
   );

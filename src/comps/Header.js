@@ -1,5 +1,5 @@
 import React from 'react'
-import { makeStyles, Box, Grid, IconButton, Fade, Modal, Backdrop, Typography, Tooltip, TextField, Paper, Button } from '@material-ui/core';
+import { makeStyles, Box, Grid, IconButton, Fade, Modal, Backdrop, Typography, Tooltip, TextField, Paper, Button, Container } from '@material-ui/core';
 import { GiSheep } from 'react-icons/gi';
 import { PhoneAndroid, Mail } from '@material-ui/icons/';
 import emailjs from 'emailjs-com';
@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        margin: '50px auto'
     },
     contactInfo: {
         fontSize: "1rem",
@@ -47,11 +48,11 @@ const useStyles = makeStyles((theme) => ({
     contact: {
         flexGrow: 1,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-        minHeight: '40vh',
-        maxWidth: '50vw',
+        padding: theme.spacing(2),
+        minHeight: '40%',
+        maxWidth: '50%',
         [theme.breakpoints.down("sm")]: {
-            maxWidth: '80vw'
+            maxWidth: '80%'
           }
     },
     sum:{
@@ -142,6 +143,7 @@ const Header = () => {
                         <Mail size="1em" />
                     </IconButton>
                     </Tooltip>
+                    <Container maxWidth="lg">
                     <Modal
                         className={classes.modal}
                         open={open}
@@ -223,6 +225,7 @@ const Header = () => {
                         </Paper>
                     </Fade>
                     </Modal>
+                    </Container>
                 </Grid>
             </Grid>
             { status &&  <EmailAlert sent={status} setStatus={setStatus}/>}
